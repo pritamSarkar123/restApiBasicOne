@@ -107,14 +107,14 @@ class "UsersSerializer"(serializers.ModelSerializer):
     class Meta:
         model=Users
         fields='__all__' #or ('name','employee_id')
-        //the fields we want to see
+        //the fields we want to display
 
 //
 rest_project->rest_app->"api.py"
 from rest_framework import.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from serializers import *
+from .serializers import *
 class UserList(APIView):
     //view functions:- get, put ,post and delete
     def get(self,request): //get <-get inbuilt
@@ -275,16 +275,16 @@ REST_FRAMEWORK={
 }
 
 //
-python manage.py makemigrations
+python manage.py makemigrations           ---------auth token requires a table for authentication
 
 //
-python manage.py migrate
+python manage.py migrate             ---------auth token requires a table for authentication
 
 -----------------------------------------------------
 rest_project->rest_app->"api.py"
 
 from rest_framework.authtoken.views import ObtainAuthToken
-from rest_framework.authtoken.models import Token
+from rest_framework.authtoken.models import Token //Token is an authtoken table
 ...
 class UserAuthentication(ObtainAuthToken):
     def post(self,request,*args,**kwargs):
