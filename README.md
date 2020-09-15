@@ -1,59 +1,54 @@
-libraries used here:- Django rest feamework and request library
-database<-rest api->op
-to manipulate,create,delete... data we use request lib and directly update our database
-here we use my sql lite as database
+### libraries used here:- Django rest feamework and request library
+### About
+	database<-rest api->op
+	to manipulate,create,delete... data we use request lib and directly update our database
+	here we use my sql lite as database
 
--------------------------------------->
 
-functions:-
-delete, create, modify, get
-REST:-Representational state transfer
-(get,post,put,delete) 
-(get data,create data,edit data,delete data)
+### functions:-
+	delete, create, modify, get
+	REST:-Representational state transfer
+	(get,post,put,delete) 
+	(get data,create data,edit data,delete data)
 
-----------------------------------------
-in your virtual env:-
-pip install djangorestframework
+### Step 1:
+	in your virtual env:-
+	pip install djangorestframework
 
-start a project here :- "rest_project"
+	start a project here :- "rest_project"
 
-python manage.py runserver
+	python manage.py runserver
 
-----------------------------------------
-python manage.py makemigrations
-//
+	python manage.py makemigrations 
+	//it makes migration file to interact with database
+	
+	python manage.py migrate
+	//it interacts
 
-python manage.py migrate
-//
+### Step 2:
 
----------------------------------------
+	python manage.py startapp rest_app
 
-python manage.py startapp rest_app
+	rest_project->settings->INSTALLED_APPS = [
+	    'rest_app',...] //regestering with main project
 
-rest_project->settings->INSTALLED_APPS = [
-    'rest_app',...] //regestering with main project
+	rest_project->rest_app->models.py->
+	    class Users(models.Model)://User name of table
+	        employee_id=models.CharField(max_length=10,unique=True)//mandatory
+	        name=models.CharField(max_length=100)//mandatory
+	        age=models.IntegerField(default=18)//mandatory
+	        ranking=models.FloatField()
+	        def upload_photo(self,filename)://filename provided by django
+	            path='rest_app/photo/{}'.format(filename)
+	            return path
+	        photo=models.ImageField(upload_to=upload_photo,null=True,blank=True)//optional
+	        def upload_file(self,filename)://filename provided by django
+	            path='rest_app/file/{}'.format(filename)
+	            return path
+	        resume=models.FileField(upload_to=upload_file,null=True,blank=True)//optional
+	        def __str__(self):
+	            return f"{self.employee_id}-{self.name}"
 
-rest_project->rest_app->models.py->
-    class Users(models.Model)://User name of table
-        employee_id=models.CharField(max_length=10,unique=True)//mandatory
-        name=models.CharField(max_length=100)//mandatory
-        age=models.IntegerField(default=18)//mandatory
-        ranking=models.FloatField()
-
-        def upload_photo(self,filename)://filename provided by django
-            path='rest_app/photo/{}'.format(filename)
-            return path
-        photo=models.ImageField(upload_to=upload_photo,null=True,blank=True)//optional
-
-        def upload_file(self,filename)://filename provided by django
-            path='rest_app/file/{}'.format(filename)
-            return path
-        resume=models.FileField(upload_to=upload_file,null=True,blank=True)//optional
-
-        def __str__(self):
-            return f"{self.employee_id}-{self.name}"
-
--------------------------------------------------------
 
 rest_project->settings->
     MEDIA_URL = '/media/'
