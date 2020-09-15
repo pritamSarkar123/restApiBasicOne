@@ -26,7 +26,6 @@
 	//it interacts
 
 ### Step 2:
-
 	python manage.py startapp rest_app
 
 	rest_project->settings->INSTALLED_APPS = [
@@ -38,45 +37,45 @@
 	        name=models.CharField(max_length=100)//mandatory
 	        age=models.IntegerField(default=18)//mandatory
 	        ranking=models.FloatField()
+
 	        def upload_photo(self,filename)://filename provided by django
 	            path='rest_app/photo/{}'.format(filename)
 	            return path
+
 	        photo=models.ImageField(upload_to=upload_photo,null=True,blank=True)//optional
 	        def upload_file(self,filename)://filename provided by django
 	            path='rest_app/file/{}'.format(filename)
 	            return path
+
 	        resume=models.FileField(upload_to=upload_file,null=True,blank=True)//optional
 	        def __str__(self):
 	            return f"{self.employee_id}-{self.name}"
 
+### Step 3:
+	rest_project->settings->
+	    MEDIA_URL = '/media/'
+	    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-rest_project->settings->
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+	rest_project->urls.py
+	    from django.conf.urls.static import static
+	    from django.conf import settings
+	    urlpatterns=[]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+### Step 4:
+	python manage.py makemigrations rest_app
+	//makes a migration file, deals with schema of the table
+	//model <--rest_app\migrations\0001_initial.py--> database
 
-rest_project->urls.py
-    from django.conf.urls.static import static
-    from django.conf import settings
-    urlpatterns=[]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+	python manage.py migrate rest_app
+	//implement the schema and make change in db
 
---------------------------------------------------------
+	rest_project->rest_app->admin.py->
+	    from .models import Users
+	    admin.site.register(Users)//registering with admin
 
-python manage.py makemigrations rest_app
-//makes a migration file, deals with schema of the table
-//model <--rest_app\migrations\0001_initial.py--> database
+	python manage.py createsuperuser
+	//
 
-python manage.py migrate rest_app
-//implement the schema and make change in db
-
-rest_project->rest_app->admin.py->
-    from .models import Users
-    admin.site.register(Users)//registering with admin
-
-python manage.py createsuperuser
-//
-
--------------------------------------------------
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
