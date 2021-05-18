@@ -1,3 +1,4 @@
+# any user who is registered , can CRUD on databases
 import requests
 from random import random
 from random import randint
@@ -64,3 +65,4 @@ for i in range(30):
 
 # for i in range(53,83):
 #     delete(i)
+
